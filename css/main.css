@@ -1,0 +1,190 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+html {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.7;
+  font-weight: 300;
+  font-size: 20px;
+}
+.wrapper {
+  display: grid;
+  grid-template-areas:
+    "head head"
+    "players team"
+    "foot foot";
+  grid-template-columns: 3fr 1fr;
+}
+header {
+  grid-area: head;
+  background-color: hsl(200deg, 60%, 70%);
+  box-shadow: 0 2px 12px #999;
+  border-bottom: 1rem solid hsl(200deg, 60%, 30%);
+  color: hsl(200deg, 60%, 30%);
+}
+header h1 {
+  padding: 2rem 2rem;
+  font-size: 4rem;
+  text-shadow: 1px 1px 1px hsl(200deg, 60%, 95%),
+    -1px -1px 1px hsl(200deg, 60%, 10%);
+}
+
+footer {
+  grid-area: foot;
+}
+footer p {
+  padding: 2rem;
+}
+
+/**************
+  Card Area
+**************/
+main {
+  grid-area: players;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding-top: 2rem;
+}
+.card {
+  flex-basis: 15vw;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 4px #ccc;
+  color: #444;
+  position: relative;
+  margin-bottom: 2rem;
+  overflow: hidden;
+  transition: transform 0.4s;
+  border-top-left-radius: 1rem;
+}
+.card:hover {
+  box-shadow: 0px 0px 12px #ddd;
+  margin-top: -2px;
+  transform: rotate(-2deg);
+}
+.card.picked h3,
+.card.picked h4 {
+  color: hsl(200deg, 60%, 30%);
+  font-weight: 500;
+}
+.card.picked .add {
+  color: #ddd;
+  font-weight: 300;
+}
+.card.picked::before {
+  content: "";
+  border-right: 2rem solid hsl(200deg, 60%, 50%);
+  border-top: 2rem solid hsl(200deg, 60%, 50%);
+  border-left: 2rem solid transparent;
+  border-bottom: 2rem solid transparent;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+}
+.card-content img {
+  width: 100%;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+.card-content h3 {
+  padding: 0.5rem 1rem 0.25rem;
+  font-weight: 300;
+  font-size: 1rem;
+  color: #444;
+}
+.card-content h4 {
+  padding: 0.25rem 1rem 0.5rem;
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: #666;
+}
+.card-actions {
+  height: 2.5rem;
+  /* margin-top: 1rem; */
+  border-top: 1px solid #ddd;
+}
+.card-actions button {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
+  width: 49%;
+  text-align: center;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+.card-actions button:first-child {
+  border-right: 1px solid #ddd;
+}
+.card-actions button:hover,
+.card-actions button:active {
+  text-decoration: underline;
+}
+.hidden {
+  display: none;
+}
+
+/**************
+  Sidebar
+**************/
+aside {
+  grid-area: team;
+  border-left: 1px solid #ddd;
+  background-color: hsl(200deg, 60%, 90%);
+  color: hsl(200deg, 60%, 30%);
+}
+aside h2 {
+  padding: 1rem 2rem;
+}
+aside p {
+  padding: 0.5rem 2rem;
+}
+aside .team-members {
+  padding: 0.5rem 2rem;
+  position: sticky;
+  top: 2rem;
+}
+aside dt {
+  font-weight: 500;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+aside dt:hover {
+  text-decoration: underline;
+  color: crimson;
+}
+aside dd {
+  text-indent: 1rem;
+}
+
+/**************
+  Message box
+**************/
+.message {
+  position: fixed;
+  z-index: 100;
+  display: none;
+  width: 30vw;
+  min-height: 10vh;
+  top: 20vh;
+  left: 35vw;
+  background-color: #ddd;
+  color: #222;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 1px solid #999;
+  box-shadow: 2px 2px 12px;
+  padding: 1rem;
+  cursor: pointer;
+}
+.message.active {
+  display: block;
+}
