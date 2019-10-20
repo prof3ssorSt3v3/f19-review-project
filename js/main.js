@@ -27,52 +27,17 @@ document.addEventListener("DOMContentLoaded", init);
 
 function init() {
   //HTML has loaded
-  //add event listeners here
-  PLAYERS.forEach(addCard);
-  let box = document.querySelector(".message");
-  box.addEventListener("click", function(ev) {
-    ev.target.classList.remove("active");
-    clearTimeout(timmy);
-  });
+  //build cards
+  //add event listeners
 }
 
 function addCard(player) {
   //create Elements
-  let card = document.createElement("div");
-  let content = document.createElement("div");
-  let avatar = document.createElement("img");
-  let name = document.createElement("h3");
-  let pos = document.createElement("h4");
-  let actions = document.createElement("div");
-  let add = document.createElement("button");
-  let remove = document.createElement("button");
   //add CSS
-  card.className = "card";
-  content.className = "card-content";
-  avatar.className = "card-person";
-  actions.className = "card-actions";
-  add.className = "add";
-  remove.className = "remove";
   //build structure
-  card.appendChild(content);
-  content.appendChild(avatar);
-  content.appendChild(name);
-  content.appendChild(pos);
-  card.appendChild(actions);
-  actions.appendChild(add);
-  actions.appendChild(remove);
   //add content
-  avatar.src = `./img/${player.image}`;
-  avatar.alt = player.name;
-  name.textContent = player.name;
-  pos.textContent = player.position;
-  add.textContent = "Add";
-  remove.textContent = "Remove";
-  actions.setAttribute("data-person", player.id);
   //listeners
-  actions.addEventListener("click", handlePlayer);
   //add to page
-  document.querySelector("main").appendChild(card);
 }
 
 /***************
@@ -93,87 +58,38 @@ function addCard(player) {
 
 function buildTeam(player) {
   //called for each person in the TEAM array
-  let name = document.createElement("dt");
-  let position = document.createElement("dd");
-  name.className = "remove";
-  name.setAttribute("data-person", player.id);
-  name.textContent = player.name;
-  name.title = "Click name to remove from team";
-  position.textContent = player.position;
-  name.addEventListener("click", handlePlayer);
-  document.querySelector(".team-members").appendChild(name);
-  document.querySelector(".team-members").appendChild(position);
+  //create elements
+  //set CSS
+  //add content
+  //add event listeners
+  //add to page
 }
 
 function handlePlayer(ev) {
   let button = ev.target;
   let idContainer = ev.currentTarget; //could be div or dt
-  //console.log(idContainer);
-  let id = parseInt(idContainer.getAttribute("data-person"));
+  //get the id
   //use the id to get the name and position to display
-  let player = PLAYERS.find(person => {
-    if (person.id == id) {
-      //console.log("YES", id);
-      return true;
-    }
-  });
-  let action = button.className.toLowerCase();
-  //console.log(action);
+  //get the action from the className
+  let action;
   switch (action) {
     case "add":
       //check if player already added
-      let index = TEAM.findIndex(player => {
-        return player.id == id;
-      });
-      if (index != -1) {
-        //player already on team
-        console.log("This player is already on the team");
-      } else {
-        //call the function to validate the types of players
-        let feedback = validateTeam(player);
-        if (feedback.full) {
-          console.log("You have a full team with", TEAM.length, "players");
-        } else {
-          //not full yet
-          console.log(feedback.msg);
-        }
-        showMessage(feedback.msg);
-        //update the CSS for the player
-        if (button !== idContainer && feedback.added) {
-          idContainer.closest(".card").classList.add("picked");
-        }
-        if (feedback.full) {
-          let notTeam = document.querySelectorAll(".card:not(.picked)");
-          notTeam.forEach(card => {
-            card.classList.add("hidden");
-          });
-        }
-      }
+      //validate the player type
+      //display a user feedback message
+      //update the CSS for the card if added to team
+      //update CSS for the cards if team is full
       break;
     case "remove":
       //update the array of TEAM members
-      TEAM = TEAM.filter(player => {
-        return player.id != id;
-      });
-      let hidden = document.querySelectorAll(".hidden");
-      hidden.forEach(card => {
-        card.classList.remove("hidden");
-      });
-      //update the CSS on the card
-      let actions = document.querySelector(`.card [data-person="${id}"]`);
-      actions.closest(".card").classList.remove("picked");
+      //update CSS for the card to not picked
+      //update CSS for team not being full
       break;
     default:
   }
-  document.querySelector(".team-members").innerHTML = "";
-  TEAM.sort((a, b) => {
-    //sort by position name
-    if (a.position > b.position) {
-      return -1;
-    } else {
-      return 1;
-    }
-  }).forEach(buildTeam);
+  //empty the sidebar list
+  //sort the TEAM
+  //call buildTeam to display new list
 }
 
 function validateTeam(newPlayer) {
@@ -189,52 +105,18 @@ function validateTeam(newPlayer) {
     chaser: 0
   };
   //check if team is already full before adding
-  if (TEAM.length === 7) {
-    return { full: true, msg: "Your team is already full" };
-  }
 
-  TEAM.push(newPlayer); //add for test
-  console.log(TEAM);
-  TEAM.forEach(player => {
-    currentMembers[player.position.toLowerCase()] += 1;
-  });
-  if (
-    SEEKER === currentMembers.seeker &&
-    KEEPER === currentMembers.keeper &&
-    BEATER === currentMembers.beater &&
-    CHASER === currentMembers.chaser
-  ) {
-    //we have exactly the right number of each type
-    return { full: true, msg: "Your team is ready.", added: true };
-  } else if (
-    currentMembers.seeker > SEEKER ||
-    currentMembers.keeper > KEEPER ||
-    currentMembers.beater > BEATER ||
-    currentMembers.chaser > CHASER
-  ) {
-    //the new person exceeds a certain type
-    TEAM.pop(); //remove the new person
-    return {
-      full: false,
-      msg: `The ${newPlayer.position} position is already full.`,
-      added: false
-    };
-  } else {
-    //we accept the new person but need more
-    return {
-      full: false,
-      msg: `${newPlayer.name} has been added as a ${newPlayer.position}`,
-      added: true
-    };
-  }
+  //add player to TEAM
+  //loop through team and count each position
+  //test for full team - return message
+  //test for one position having too many - then cancel the add, return message
+  //else just return message that person was added
+  //returned message object {full: , added: , message}
 }
 
 function showMessage(msg) {
-  let box = document.querySelector(".message");
-  box.textContent = msg;
-  box.classList.add("active");
-  clearTimeout(timmy);
-  timmy = setTimeout(function() {
-    box.classList.remove("active");
-  }, 3000);
+  //set the text in the message box
+  //set the CSS class
+  //clear timer
+  //set timer to remove the CSS class
 }
